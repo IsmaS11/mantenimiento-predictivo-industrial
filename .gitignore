@@ -1,0 +1,27 @@
+# --- Python General ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# --- Jupyter Notebooks ---
+# Esto es CRÍTICO: ignora los backups automáticos que ensucian el repo
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# --- Datos ---
+# Asumo que tus CSVs están o en notebooks o en src/data.
+# Bloqueamos cualquier CSV/Excel para no subir datos confidenciales o pesados.
+*.csv
+*.xlsx
+*.parquet
+*.pkl
+*.joblib
+
+
+# --- IDEs ---
+.vscode/
+.idea/
