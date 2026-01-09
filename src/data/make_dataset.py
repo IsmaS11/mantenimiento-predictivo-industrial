@@ -4,6 +4,9 @@ import pyodbc
 import pandas as pd
 from sqlalchemy import create_engine, text
 import urllib
+import warnings
+from sqlalchemy import exc
+
 
 def obtener_datos_sql():
     # 1. Configurar tu string de conexión como siempre
@@ -37,3 +40,5 @@ def obtener_datos_sql():
     except Exception as e:
         print(f"❌ Error: {e}")
         return None
+# Ignorar advertencias específicas de SQLAlchemy sobre versiones
+warnings.filterwarnings('ignore', category=exc.SAWarning)
