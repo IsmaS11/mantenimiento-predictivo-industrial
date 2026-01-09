@@ -57,7 +57,7 @@ def compare_rule_vs_ai(
         # Cálculo de Costos Regla
         costo_regla = (tp_r * costs['preventivo']) + \
                       (fp_r * costs['inspeccion']) + \
-                      (fn_r * costs['falla']) + \
+                      (fn_r * costs['falla_critica']) + \
                       (tn_r * costs['normal'])
 
         # ---------------------------------------------------------
@@ -74,7 +74,7 @@ def compare_rule_vs_ai(
 
         costo_ia = (tp_ai * costs['preventivo']) + \
                    (fp_ai * costs['inspeccion']) + \
-                   (fn_ai * costs['falla']) + \
+                   (fn_ai * costs['falla_critica']) + \
                    (tn_ai * costs['normal'])
 
         # ---------------------------------------------------------

@@ -39,6 +39,7 @@ def calculate_optimal_thresholds(
                 }, ...
             }
     """
+    umbrales_optimos = {}
     results = {}
     range_thresholds = np.arange(step, 1.0, step)
     
@@ -76,7 +77,7 @@ def calculate_optimal_thresholds(
             min_cost = min(costs_list)
             idx_min = costs_list.index(min_cost)
             best_threshold = range_thresholds[idx_min]
-            
+            umbrales_optimos[falla] = best_threshold
             results[falla] = {
                 'thresholds': range_thresholds,
                 'costs': costs_list,
@@ -88,7 +89,7 @@ def calculate_optimal_thresholds(
             logging.error(f"Error optimizando umbrales para {falla}: {e}")
             continue
             
-    return results
+    return results, umbrales_optimos
 
 def plot_threshold_optimization(
     optimization_results: Dict[str, Any],

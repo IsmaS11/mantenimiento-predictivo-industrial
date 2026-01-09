@@ -51,6 +51,15 @@ def plot_comparacion_final(costo_actual, costo_propuesto, guardar_como=None):
     
     if guardar_como:
         plt.savefig(guardar_como, dpi=300, bbox_inches='tight')
-        print(f"✅ Gráfico guardado en: {guardar_como}")
+        print(f"Gráfico guardado en: {guardar_como}")
         
     return fig
+
+# --- EJEMPLO DE USO (Con tus números reales) ---
+if __name__ == "__main__":
+    fig = plot_comparacion_final(
+        costo_actual=710000, 
+        costo_propuesto=77250,
+        guardar_como='reports/figures/final_roi_comparison.png'
+    )
+    plt.show()

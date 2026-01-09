@@ -1,16 +1,17 @@
 import pandas as pd
 import pyodbc 
 
+import pandas as pd
+from sqlalchemy import create_engine, text
+import urllib
+
 def obtener_datos_sql():
-    """
-    Establece conexión y descarga los datos de mantenimiento.
-    Returns: DataFrame con los datos crudos.
-    """
-    # 1. Configurar (Esto ahora vive seguro dentro de la función)
+    # 1. Configurar tu string de conexión como siempre
     server = 'localhost' 
     database = 'MantenimientoIndustrial' 
     
-    conn_str = (
+    # Usamos urllib para convertir la string en formato URL seguro
+    params = urllib.parse.quote_plus(
         f'DRIVER={{ODBC Driver 17 for SQL Server}};'
         f'SERVER={server};'
         f'DATABASE={database};'
@@ -18,20 +19,21 @@ def obtener_datos_sql():
         'TrustServerCertificate=yes;'
     )
 
+    # 2. CREAR EL MOTOR (ENGINE) - Esto es lo que pide Pandas
+    # El formato es: mssql+pyodbc:///?odbc_connect=TUS_PARAMETROS
+    engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
+
     try:
-        # 2. Conectar
-        conn = pyodbc.connect(conn_str)
-        
-        # 3. Extraer
-        query = "SELECT * FROM ai4i2020"
-        df = pd.read_sql(query, conn)
-        
-        # 4. Cerrar conexión (¡Buena práctica!)
-        conn.close()
-        
-        print("✅ Conexión exitosa. Datos cargados.")
-        return df  # <--- ESTA ES LA CLAVE
-        
+        # 3. Usar el motor para leer
+        # Usamos 'with' para que la conexión se cierre sola automáticamente
+        with engine.connect() as conn:
+            query = "SELECT * FROM ai4i2020"
+            # Pandas ahora es feliz porque recibe una conexión de SQLAlchemy
+            df = pd.read_sql(query, conn)
+            
+        print("✅ Datos cargados correctamente con SQLAlchemy.")
+        return df
+
     except Exception as e:
-        print(f"❌ Error en la conexión: {e}")
+        print(f"❌ Error: {e}")
         return None
